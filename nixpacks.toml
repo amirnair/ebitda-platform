@@ -1,0 +1,12 @@
+# backend/nixpacks.toml
+# Tells Railway (Nixpacks builder) how to build the Python backend.
+# Place this in backend/ root.
+
+[phases.setup]
+nixPkgs = ["python311", "pip"]
+
+[phases.install]
+cmds = ["pip install -r requirements.txt"]
+
+[start]
+cmd = "uvicorn main:app --host 0.0.0.0 --port $PORT"

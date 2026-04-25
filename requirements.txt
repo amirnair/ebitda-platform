@@ -1,0 +1,15 @@
+# backend/requirements.txt
+# Confirm these are all present. razorpay was added in Session 10.
+
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+supabase>=2.3.0
+python-dotenv>=1.0.0
+pydantic[email]>=2.0.0
+httpx>=0.27.0
+
+# Session 4 — Production Optimiser
+pulp>=2.8.0
+
+# Session 10 — Payments
+razorpay==1.4.1

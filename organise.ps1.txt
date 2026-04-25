@@ -1,0 +1,145 @@
+# AC Industries EBITDA Platform - File Organiser
+# Run this from PowerShell to sort your files into frontend/ and backend/ folders
+# Right-click this file -> Run with PowerShell
+
+$source = "$env:USERPROFILE\Desktop\ebitda-platform"
+$frontend = "$source\frontend"
+$backend = "$source\backend"
+$frontendSrc = "$frontend\src"
+$frontendSrcScreens = "$frontend\src\screens"
+$frontendSrcComponents = "$frontend\src\components"
+$frontendSrcHooks = "$frontend\src\hooks"
+$frontendSrcConfig = "$frontend\src\config"
+$frontendSrcLib = "$frontend\src\lib"
+$frontendSrcUtils = "$frontend\src\utils"
+$backendRouters = "$backend\routers"
+
+# Create folder structure
+New-Item -ItemType Directory -Force -Path $frontend | Out-Null
+New-Item -ItemType Directory -Force -Path $backend | Out-Null
+New-Item -ItemType Directory -Force -Path $frontendSrc | Out-Null
+New-Item -ItemType Directory -Force -Path $frontendSrcScreens | Out-Null
+New-Item -ItemType Directory -Force -Path $frontendSrcComponents | Out-Null
+New-Item -ItemType Directory -Force -Path $frontendSrcHooks | Out-Null
+New-Item -ItemType Directory -Force -Path $frontendSrcConfig | Out-Null
+New-Item -ItemType Directory -Force -Path $frontendSrcLib | Out-Null
+New-Item -ItemType Directory -Force -Path $frontendSrcUtils | Out-Null
+New-Item -ItemType Directory -Force -Path $backendRouters | Out-Null
+
+Write-Host "Created folder structure..." -ForegroundColor Green
+
+# Move dashboard folder contents to frontend
+if (Test-Path "$source\dashboard") {
+    Copy-Item "$source\dashboard\*" $frontend -Recurse -Force
+    Write-Host "Copied dashboard folder to frontend/" -ForegroundColor Green
+}
+
+# Frontend screens (JSX screen files)
+$screens = @(
+    "EbitdaCommandCentre.jsx", "ProductionCycle.jsx", "SalesCycle.jsx",
+    "DailyRollingPlan.jsx", "WeeklyProductionPlan.jsx", "ModelComparison.jsx",
+    "EbitdaSimulator.jsx", "StrategyDashboard.jsx", "Settings.jsx",
+    "LoginScreen.jsx"
+)
+foreach ($f in $screens) {
+    if (Test-Path "$source\$f") {
+        Move-Item "$source\$f" $frontendSrcScreens -Force
+        Write-Host "Moved $f -> frontend/src/screens/" -ForegroundColor Cyan
+    }
+}
+
+# Frontend components
+$components = @(
+    "AppShell.jsx", "AuthContext.jsx", "CompanyContext.jsx",
+    "ProtectedRoute.jsx", "PricingManager.jsx", "RazorpayCheckout.jsx"
+)
+foreach ($f in $components) {
+    if (Test-Path "$source\$f") {
+        Move-Item "$source\$f" $frontendSrcComponents -Force
+        Write-Host "Moved $f -> frontend/src/components/" -ForegroundColor Cyan
+    }
+}
+
+# Frontend hooks
+$hooks = @("useClaudeInsight.js", "useSubscription.js", "usePlans.js")
+foreach ($f in $hooks) {
+    if (Test-Path "$source\$f") {
+        Move-Item "$source\$f" $frontendSrcHooks -Force
+        Write-Host "Moved $f -> frontend/src/hooks/" -ForegroundColor Cyan
+    }
+}
+
+# Frontend config
+$configs = @("companyConfig.js", "rolePermissions.js")
+foreach ($f in $configs) {
+    if (Test-Path "$source\$f") {
+        Move-Item "$source\$f" $frontendSrcConfig -Force
+        Write-Host "Moved $f -> frontend/src/config/" -ForegroundColor Cyan
+    }
+}
+
+# Frontend lib
+if (Test-Path "$source\supabaseClient.js") {
+    Move-Item "$source\supabaseClient.js" $frontendSrcLib -Force
+    Write-Host "Moved supabaseClient.js -> frontend/src/lib/" -ForegroundColor Cyan
+}
+
+# Frontend utils
+if (Test-Path "$source\formatCurrency.js") {
+    Move-Item "$source\formatCurrency.js" $frontendSrcUtils -Force
+    Write-Host "Moved formatCurrency.js -> frontend/src/utils/" -ForegroundColor Cyan
+}
+
+# Frontend root files
+$frontendRoot = @("App.jsx", "App_session7_diff.jsx", "App_session8_diff", "vercel.json")
+foreach ($f in $frontendRoot) {
+    if (Test-Path "$source\$f") {
+        Move-Item "$source\$f" $frontend -Force
+        Write-Host "Moved $f -> frontend/" -ForegroundColor Cyan
+    }
+}
+
+# Backend routers
+$routers = @(
+    "ebitda_routes.py", "forecasting_routes.py", "optimiser_routes.py",
+    "payments.py", "invite_user.py"
+)
+foreach ($f in $routers) {
+    if (Test-Path "$source\$f") {
+        Move-Item "$source\$f" $backendRouters -Force
+        Write-Host "Moved $f -> backend/routers/" -ForegroundColor Cyan
+    }
+}
+
+# Backend root files
+$backendFiles = @(
+    "main.py", "main_patch_notes.py", "requirements.txt", "requirements_session4.txt",
+    "Procfile", "nixpacks.toml",
+    "aggregation_engine.py", "aggregation_models.py",
+    "billet_engine.py", "connector_config.py", "cost_engine.py",
+    "ebitda_engine.py", "ebitda_models.py",
+    "forecast_models.py", "forecasting_engine.py",
+    "ingestion_pipeline.py", "lp_optimiser.py",
+    "production_plan.py", "raw_material_engine.py",
+    "revenue_engine.py", "sku_capacity.py", "sku_master.py",
+    "sku_proportion_model.py", "synthetic_data.py", "synthetic_demand.py",
+    "synthetic_ebitda_data.py", "test_aggregation.py", "test_connector.py",
+    "test_ebitda.py", "test_forecasting.py", "test_optimiser.py",
+    "universal_connector.py", "urgency_scorer.py",
+    "__init__.py", "schema.sql"
+)
+foreach ($f in $backendFiles) {
+    if (Test-Path "$source\$f") {
+        Move-Item "$source\$f" $backend -Force
+        Write-Host "Moved $f -> backend/" -ForegroundColor Cyan
+    }
+}
+
+Write-Host ""
+Write-Host "========================================" -ForegroundColor Green
+Write-Host "Done! Your folder structure is ready." -ForegroundColor Green
+Write-Host "frontend/ and backend/ folders created." -ForegroundColor Green
+Write-Host "========================================" -ForegroundColor Green
+Write-Host ""
+Write-Host "Press any key to close..."
+$null = $Host.UI.RawUI.ReadKey("NoEcho,IncludeKeyDown")
