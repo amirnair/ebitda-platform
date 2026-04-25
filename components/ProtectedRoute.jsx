@@ -1,13 +1,4 @@
 // src/components/ProtectedRoute.jsx
-// Wraps any screen that requires:
-//   1. A logged-in user
-//   2. A specific role permission
-//
-// Usage in App.jsx:
-//   <ProtectedRoute screenKey="simulator">
-//     <EbitdaSimulator />
-//   </ProtectedRoute>
-
 import { Navigate } from 'react-router-dom'
 import { useAuth } from './AuthContext'
 import { canAccess } from '../config/rolePermissions'
@@ -15,8 +6,8 @@ import { canAccess } from '../config/rolePermissions'
 export default function ProtectedRoute({ children, screenKey }) {
   const { user, role, loading } = useAuth()
 
-  // Still resolving session — show nothing (or a spinner)
-  if (loading) {
+  // Still loading AND no user yet — show spinner briefly
+  if (loading && !user) {
     return (
       <div style={{
         display: 'flex',
@@ -39,15 +30,15 @@ export default function ProtectedRoute({ children, screenKey }) {
     return <Navigate to="/login" replace />
   }
 
-  // Logged in but no permission for this screen → send to their default screen
-  if (screenKey && !canAccess(role, screenKey)) {
+  // Logged in but role not loaded yet — allow through (profile loads in background)
+  if (screenKey && role && !canAccess(role, screenKey)) {
     return <AccessDenied screenKey={screenKey} role={role} />
   }
 
   return children
 }
 
-// ── Access Denied screen (inline — no extra file needed) ──────────────────
+// ── Access Denied screen ──────────────────────────────────────────────────
 function AccessDenied({ screenKey, role }) {
   return (
     <div style={{
