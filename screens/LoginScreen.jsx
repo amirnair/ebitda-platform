@@ -1,17 +1,14 @@
 // src/screens/LoginScreen.jsx
 // Multi-tenant login page.
 // Uses Supabase email+password auth.
-// On success → AuthContext loads profile + company → redirects to default screen.
+// On success → navigates to /dashboard (AuthContext loads profile in background).
 
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
-import { defaultScreen } from '../config/rolePermissions'
-import { useAuth } from '../components/AuthContext'
 
 export default function LoginScreen() {
   const navigate = useNavigate()
-  const { role }  = useAuth()
 
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
@@ -31,256 +28,145 @@ export default function LoginScreen() {
       return
     }
 
-    // AuthContext will pick up the new session via onAuthStateChange.
-    // Navigate to the role's default screen.
-    navigate('/' + defaultScreen(role), { replace: true })
+    // Navigate directly to dashboard — AuthContext will load profile in background
+    navigate('/dashboard', { replace: true })
     setLoading(false)
   }
 
   return (
-    <div style={styles.page}>
-      {/* Background grid texture */}
-      <div style={styles.gridOverlay} />
-
-      {/* Card */}
-      <div style={styles.card}>
-        {/* Logo / wordmark */}
-        <div style={styles.logoArea}>
-          <div style={styles.logoMark}>◈</div>
-          <div>
-            <div style={styles.productName}>EBITDA Intelligence</div>
-            <div style={styles.tagline}>Steel Manufacturing Platform</div>
+    <div style={{
+      minHeight: '100vh',
+      background: '#0f1117',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: 'DM Mono, monospace',
+      padding: '1rem',
+    }}>
+      <div style={{
+        background: '#1a1d2e',
+        border: '1px solid #2d3148',
+        borderRadius: '12px',
+        padding: '2.5rem',
+        width: '100%',
+        maxWidth: '420px',
+      }}>
+        {/* Logo */}
+        <div style={{ marginBottom: '2rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+            <div style={{
+              width: '32px', height: '32px',
+              background: 'linear-gradient(135deg, #f59e0b, #d97706)',
+              borderRadius: '8px',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '16px',
+            }}>◆</div>
+            <span style={{ color: '#f1f5f9', fontSize: '1.1rem', fontWeight: 600 }}>
+              EBITDA Intelligence
+            </span>
           </div>
+          <div style={{ color: '#64748b', fontSize: '0.8rem' }}>Steel Manufacturing Platform</div>
         </div>
 
-        <div style={styles.divider} />
+        <div style={{ borderTop: '1px solid #2d3148', marginBottom: '1.5rem' }} />
 
-        <h1 style={styles.heading}>Sign in</h1>
-        <p style={styles.subheading}>
+        <h2 style={{ color: '#f1f5f9', fontSize: '1.5rem', fontWeight: 600, margin: '0 0 0.5rem' }}>
+          Sign in
+        </h2>
+        <p style={{ color: '#94a3b8', fontSize: '0.85rem', margin: '0 0 1.5rem' }}>
           Enter your credentials to access your dashboard.
         </p>
 
-        <form onSubmit={handleLogin} style={styles.form}>
-          <div style={styles.fieldGroup}>
-            <label style={styles.label}>Email address</label>
+        {error && (
+          <div style={{
+            background: '#2d1b1b',
+            border: '1px solid #7f1d1d',
+            borderRadius: '6px',
+            padding: '0.75rem',
+            color: '#fca5a5',
+            fontSize: '0.8rem',
+            marginBottom: '1rem',
+          }}>
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleLogin}>
+          <div style={{ marginBottom: '1rem' }}>
+            <label style={{ color: '#94a3b8', fontSize: '0.75rem', letterSpacing: '0.05em', display: 'block', marginBottom: '0.5rem' }}>
+              EMAIL ADDRESS
+            </label>
             <input
               type="email"
               value={email}
               onChange={e => setEmail(e.target.value)}
               placeholder="you@company.com"
               required
-              style={styles.input}
-              onFocus={e  => Object.assign(e.target.style, styles.inputFocus)}
-              onBlur={e   => Object.assign(e.target.style, styles.input)}
+              style={{
+                width: '100%',
+                background: '#0f1117',
+                border: '1px solid #2d3148',
+                borderRadius: '6px',
+                padding: '0.75rem',
+                color: '#f1f5f9',
+                fontSize: '0.9rem',
+                fontFamily: 'inherit',
+                boxSizing: 'border-box',
+                outline: 'none',
+              }}
             />
           </div>
 
-          <div style={styles.fieldGroup}>
-            <label style={styles.label}>Password</label>
+          <div style={{ marginBottom: '1.5rem' }}>
+            <label style={{ color: '#94a3b8', fontSize: '0.75rem', letterSpacing: '0.05em', display: 'block', marginBottom: '0.5rem' }}>
+              PASSWORD
+            </label>
             <input
               type="password"
               value={password}
               onChange={e => setPassword(e.target.value)}
               placeholder="••••••••"
               required
-              style={styles.input}
-              onFocus={e => Object.assign(e.target.style, styles.inputFocus)}
-              onBlur={e  => Object.assign(e.target.style, styles.input)}
+              style={{
+                width: '100%',
+                background: '#0f1117',
+                border: '1px solid #2d3148',
+                borderRadius: '6px',
+                padding: '0.75rem',
+                color: '#f1f5f9',
+                fontSize: '0.9rem',
+                fontFamily: 'inherit',
+                boxSizing: 'border-box',
+                outline: 'none',
+              }}
             />
           </div>
-
-          {error && (
-            <div style={styles.errorBox}>
-              ⚠ {error}
-            </div>
-          )}
 
           <button
             type="submit"
             disabled={loading}
-            style={loading ? { ...styles.button, ...styles.buttonDisabled } : styles.button}
+            style={{
+              width: '100%',
+              background: loading ? '#92400e' : '#f59e0b',
+              color: '#0f1117',
+              border: 'none',
+              borderRadius: '6px',
+              padding: '0.85rem',
+              fontSize: '0.85rem',
+              fontWeight: 700,
+              letterSpacing: '0.08em',
+              cursor: loading ? 'not-allowed' : 'pointer',
+              fontFamily: 'inherit',
+            }}
           >
             {loading ? 'SIGNING IN...' : 'SIGN IN'}
           </button>
         </form>
 
-        <p style={styles.footerNote}>
+        <p style={{ color: '#475569', fontSize: '0.75rem', textAlign: 'center', marginTop: '1.5rem' }}>
           Don't have an account? Contact your platform administrator.
         </p>
       </div>
-
-      {/* Version stamp */}
-      <div style={styles.versionStamp}>v1.7 — Session 9</div>
     </div>
   )
-}
-
-// ── Styles ────────────────────────────────────────────────────────────────────
-const C = {
-  bg:       '#0D1B2A',
-  surface:  '#111F30',
-  border:   '#1E3A5F',
-  gold:     '#E8B84B',
-  text:     '#FFFFFF',
-  muted:    '#8899AA',
-  error:    '#FF6B6B',
-  inputBg:  '#0A1520',
-}
-
-const styles = {
-  page: {
-    minHeight:       '100vh',
-    background:      C.bg,
-    display:         'flex',
-    alignItems:      'center',
-    justifyContent:  'center',
-    fontFamily:      "'DM Mono', monospace",
-    position:        'relative',
-    overflow:        'hidden',
-  },
-  gridOverlay: {
-    position:   'absolute',
-    inset:      0,
-    background: `
-      linear-gradient(rgba(30,58,95,0.15) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(30,58,95,0.15) 1px, transparent 1px)
-    `,
-    backgroundSize: '40px 40px',
-    pointerEvents:  'none',
-  },
-  card: {
-    position:     'relative',
-    zIndex:       1,
-    width:        '100%',
-    maxWidth:     420,
-    background:   C.surface,
-    border:       `1px solid ${C.border}`,
-    borderRadius: 12,
-    padding:      '2.5rem 2rem',
-    boxShadow:    `0 0 60px rgba(30,58,95,0.4), 0 0 0 1px rgba(232,184,75,0.08)`,
-  },
-  logoArea: {
-    display:    'flex',
-    alignItems: 'center',
-    gap:        '0.75rem',
-    marginBottom: '1.5rem',
-  },
-  logoMark: {
-    fontSize:   '2rem',
-    color:      C.gold,
-    lineHeight: 1,
-  },
-  productName: {
-    fontSize:   '0.95rem',
-    fontWeight: 700,
-    color:      C.text,
-    letterSpacing: '0.05em',
-  },
-  tagline: {
-    fontSize:   '0.7rem',
-    color:      C.muted,
-    letterSpacing: '0.08em',
-    marginTop:  2,
-  },
-  divider: {
-    height:       1,
-    background:   C.border,
-    marginBottom: '1.5rem',
-  },
-  heading: {
-    margin:     '0 0 0.25rem',
-    fontSize:   '1.4rem',
-    fontWeight: 700,
-    color:      C.text,
-    letterSpacing: '-0.01em',
-  },
-  subheading: {
-    margin:       '0 0 1.75rem',
-    fontSize:     '0.78rem',
-    color:        C.muted,
-    lineHeight:   1.6,
-  },
-  form: {
-    display:       'flex',
-    flexDirection: 'column',
-    gap:           '1rem',
-  },
-  fieldGroup: {
-    display:       'flex',
-    flexDirection: 'column',
-    gap:           '0.35rem',
-  },
-  label: {
-    fontSize:      '0.72rem',
-    color:         C.muted,
-    letterSpacing: '0.08em',
-    textTransform: 'uppercase',
-  },
-  input: {
-    background:   C.inputBg,
-    border:       `1px solid ${C.border}`,
-    borderRadius: 6,
-    padding:      '0.65rem 0.85rem',
-    color:        C.text,
-    fontSize:     '0.85rem',
-    fontFamily:   "'DM Mono', monospace",
-    outline:      'none',
-    transition:   'border-color 0.15s',
-    width:        '100%',
-    boxSizing:    'border-box',
-  },
-  inputFocus: {
-    background:   C.inputBg,
-    border:       `1px solid ${C.gold}`,
-    borderRadius: 6,
-    padding:      '0.65rem 0.85rem',
-    color:        C.text,
-    fontSize:     '0.85rem',
-    fontFamily:   "'DM Mono', monospace",
-    outline:      'none',
-    width:        '100%',
-    boxSizing:    'border-box',
-  },
-  errorBox: {
-    background:   'rgba(255,107,107,0.1)',
-    border:       '1px solid rgba(255,107,107,0.3)',
-    borderRadius: 6,
-    padding:      '0.6rem 0.85rem',
-    color:        C.error,
-    fontSize:     '0.78rem',
-  },
-  button: {
-    background:    C.gold,
-    color:         '#0D1B2A',
-    border:        'none',
-    borderRadius:  6,
-    padding:       '0.75rem',
-    fontSize:      '0.8rem',
-    fontFamily:    "'DM Mono', monospace",
-    fontWeight:    700,
-    letterSpacing: '0.1em',
-    cursor:        'pointer',
-    marginTop:     '0.5rem',
-    transition:    'opacity 0.15s',
-  },
-  buttonDisabled: {
-    opacity: 0.5,
-    cursor:  'not-allowed',
-  },
-  footerNote: {
-    marginTop:  '1.25rem',
-    fontSize:   '0.73rem',
-    color:      C.muted,
-    textAlign:  'center',
-    lineHeight: 1.6,
-  },
-  versionStamp: {
-    position:   'fixed',
-    bottom:     12,
-    right:      16,
-    fontSize:   '0.65rem',
-    color:      'rgba(136,153,170,0.4)',
-    fontFamily: "'DM Mono', monospace",
-    letterSpacing: '0.06em',
-  },
 }
