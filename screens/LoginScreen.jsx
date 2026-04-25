@@ -1,15 +1,8 @@
 // src/screens/LoginScreen.jsx
-// Multi-tenant login page.
-// Uses Supabase email+password auth.
-// On success → navigates to /dashboard (AuthContext loads profile in background).
-
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
 import { supabase } from '../lib/supabaseClient'
 
 export default function LoginScreen() {
-  const navigate = useNavigate()
-
   const [email,    setEmail]    = useState('')
   const [password, setPassword] = useState('')
   const [loading,  setLoading]  = useState(false)
@@ -20,7 +13,7 @@ export default function LoginScreen() {
     setLoading(true)
     setError(null)
 
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
+    const { data, error } = await supabase.auth.signInWithPassword({ email, password })
 
     if (error) {
       setError(error.message)
@@ -28,9 +21,8 @@ export default function LoginScreen() {
       return
     }
 
-    // Navigate directly to dashboard — AuthContext will load profile in background
-    navigate('/dashboard', { replace: true })
-    setLoading(false)
+    // Force a full page navigation to dashboard — bypasses React Router/AuthContext timing issues
+    window.location.href = '/dashboard'
   }
 
   return (
@@ -51,7 +43,6 @@ export default function LoginScreen() {
         width: '100%',
         maxWidth: '420px',
       }}>
-        {/* Logo */}
         <div style={{ marginBottom: '2rem' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
             <div style={{
@@ -79,13 +70,9 @@ export default function LoginScreen() {
 
         {error && (
           <div style={{
-            background: '#2d1b1b',
-            border: '1px solid #7f1d1d',
-            borderRadius: '6px',
-            padding: '0.75rem',
-            color: '#fca5a5',
-            fontSize: '0.8rem',
-            marginBottom: '1rem',
+            background: '#2d1b1b', border: '1px solid #7f1d1d',
+            borderRadius: '6px', padding: '0.75rem',
+            color: '#fca5a5', fontSize: '0.8rem', marginBottom: '1rem',
           }}>
             {error}
           </div>
@@ -97,22 +84,15 @@ export default function LoginScreen() {
               EMAIL ADDRESS
             </label>
             <input
-              type="email"
-              value={email}
+              type="email" value={email}
               onChange={e => setEmail(e.target.value)}
-              placeholder="you@company.com"
-              required
+              placeholder="you@company.com" required
               style={{
-                width: '100%',
-                background: '#0f1117',
-                border: '1px solid #2d3148',
-                borderRadius: '6px',
-                padding: '0.75rem',
-                color: '#f1f5f9',
-                fontSize: '0.9rem',
-                fontFamily: 'inherit',
-                boxSizing: 'border-box',
-                outline: 'none',
+                width: '100%', background: '#0f1117',
+                border: '1px solid #2d3148', borderRadius: '6px',
+                padding: '0.75rem', color: '#f1f5f9',
+                fontSize: '0.9rem', fontFamily: 'inherit',
+                boxSizing: 'border-box', outline: 'none',
               }}
             />
           </div>
@@ -122,38 +102,26 @@ export default function LoginScreen() {
               PASSWORD
             </label>
             <input
-              type="password"
-              value={password}
+              type="password" value={password}
               onChange={e => setPassword(e.target.value)}
-              placeholder="••••••••"
-              required
+              placeholder="••••••••" required
               style={{
-                width: '100%',
-                background: '#0f1117',
-                border: '1px solid #2d3148',
-                borderRadius: '6px',
-                padding: '0.75rem',
-                color: '#f1f5f9',
-                fontSize: '0.9rem',
-                fontFamily: 'inherit',
-                boxSizing: 'border-box',
-                outline: 'none',
+                width: '100%', background: '#0f1117',
+                border: '1px solid #2d3148', borderRadius: '6px',
+                padding: '0.75rem', color: '#f1f5f9',
+                fontSize: '0.9rem', fontFamily: 'inherit',
+                boxSizing: 'border-box', outline: 'none',
               }}
             />
           </div>
 
           <button
-            type="submit"
-            disabled={loading}
+            type="submit" disabled={loading}
             style={{
               width: '100%',
               background: loading ? '#92400e' : '#f59e0b',
-              color: '#0f1117',
-              border: 'none',
-              borderRadius: '6px',
-              padding: '0.85rem',
-              fontSize: '0.85rem',
-              fontWeight: 700,
+              color: '#0f1117', border: 'none', borderRadius: '6px',
+              padding: '0.85rem', fontSize: '0.85rem', fontWeight: 700,
               letterSpacing: '0.08em',
               cursor: loading ? 'not-allowed' : 'pointer',
               fontFamily: 'inherit',
