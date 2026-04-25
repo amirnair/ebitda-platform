@@ -2,3 +2,5 @@ export const formatCurrency = (val) => val != null ? new Intl.NumberFormat('en-I
 export const formatPerTon = (val) => val != null ? 'Rs ' + Number(val).toLocaleString('en-IN') + '/t' : '-'
 export const formatVolume = (val) => val != null ? Number(val).toLocaleString('en-IN') + ' MT' : '-'
 export const formatMargin = (val) => val != null ? Number(val).toFixed(1) + '%' : '-'
+
+export const formatDelta = (val) => val != null ? (val >= 0 ? '+' : '') + Number(val).toFixed(1) + '%' : '-'
