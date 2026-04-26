@@ -71,7 +71,7 @@ export default function AppShell({ screens, children }) {
   const ActiveScreen = screens?.[activeId];
 
   return (
-    <div style={{ display: "flex", minHeight: "100vh", fontFamily: "'Syne', var(--font-sans), sans-serif", background: "var(--color-background-tertiary)" }}>
+    <div style={{ display: "flex", minHeight: "100vh", fontFamily: "'Calibri', 'Carlito', Arial, sans-serif", background: "var(--color-background-tertiary)" }}>
       {/* Sidebar */}
       <aside style={{ width: 232, flexShrink: 0, background: "var(--color-background-primary)", borderRight: "0.5px solid var(--color-border-tertiary)", display: "flex", flexDirection: "column", position: "sticky", top: 0, height: "100vh", overflowY: "auto" }}>
         {/* Logo */}
