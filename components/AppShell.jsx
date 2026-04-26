@@ -1,21 +1,22 @@
 /**
  * AppShell.jsx — Fixed with null-safe company references
  */
-import { useState } from "react";
+
+import { useNavigate } from "react-router-dom";
 import { useCompany } from "./CompanyContext";
 import { useAuth } from "./AuthContext";
 
 const NAV_ITEMS = [
-  { id: "ebitda-command-centre", label: "EBITDA Command Centre", shortLabel: "Command Centre", icon: IconCommandCentre, audience: "Owner / Finance", phase: 1, built: true },
+  { id: "ebitda-command-centre", path: "/dashboard", label: "EBITDA Command Centre", shortLabel: "Command Centre", icon: IconCommandCentre, audience: "Owner / Finance", phase: 1, built: true },
   { id: "raw-material-cycle", label: "Raw Material Cycle", shortLabel: "Raw Material", icon: IconRawMaterial, audience: "Procurement", phase: 3, built: false, phaseNote: "Phase 3" },
-  { id: "production-cycle", label: "Production Cycle", shortLabel: "Production", icon: IconProduction, audience: "Production Mgr", phase: 2, built: false },
-  { id: "sales-cycle", label: "Sales Cycle", shortLabel: "Sales", icon: IconSales, audience: "Sales Mgr", phase: 1, built: false },
-  { id: "daily-rolling-plan", label: "Daily Rolling Plan", shortLabel: "Daily Plan", icon: IconDailyPlan, audience: "Production Sup.", phase: 2, built: false },
-  { id: "weekly-production-plan", label: "Weekly Production Plan", shortLabel: "Weekly Plan", icon: IconWeeklyPlan, audience: "Production Mgr", phase: 2, built: false },
-  { id: "model-comparison", label: "Model Comparison", shortLabel: "Models", icon: IconModels, audience: "Analyst / Owner", phase: 2, built: false },
-  { id: "ebitda-simulator", label: "EBITDA Simulator", shortLabel: "Simulator", icon: IconSimulator, audience: "Owner / Finance", phase: 1, built: false },
-  { id: "strategy-dashboard", label: "Strategy Dashboard", shortLabel: "Strategy", icon: IconStrategy, audience: "Senior Mgmt", phase: 2, built: false },
-  { id: "settings", label: "Settings", shortLabel: "Settings", icon: IconSettings, audience: "Admin", phase: 1, built: false, isBottom: true },
+  { id: "production-cycle", path: "/production", label: "Production Cycle", shortLabel: "Production", icon: IconProduction, audience: "Production Mgr", phase: 2, built: false },
+  { id: "sales-cycle", path: "/sales", label: "Sales Cycle", shortLabel: "Sales", icon: IconSales, audience: "Sales Mgr", phase: 1, built: false },
+  { id: "daily-rolling-plan", path: "/daily-plan", label: "Daily Rolling Plan", shortLabel: "Daily Plan", icon: IconDailyPlan, audience: "Production Sup.", phase: 2, built: false },
+  { id: "weekly-production-plan", path: "/weekly-plan", label: "Weekly Production Plan", shortLabel: "Weekly Plan", icon: IconWeeklyPlan, audience: "Production Mgr", phase: 2, built: false },
+  { id: "model-comparison", path: "/model-comparison", label: "Model Comparison", shortLabel: "Models", icon: IconModels, audience: "Analyst / Owner", phase: 2, built: false },
+  { id: "ebitda-simulator", path: "/simulator", label: "EBITDA Simulator", shortLabel: "Simulator", icon: IconSimulator, audience: "Owner / Finance", phase: 1, built: false },
+  { id: "strategy-dashboard", path: "/strategy", label: "Strategy Dashboard", shortLabel: "Strategy", icon: IconStrategy, audience: "Senior Mgmt", phase: 2, built: false },
+  { id: "settings", path: "/settings", label: "Settings", shortLabel: "Settings", icon: IconSettings, audience: "Admin", phase: 1, built: false, isBottom: true },
 ];
 
 function SvgIcon({ children, size = 16 }) {
@@ -49,6 +50,7 @@ function ComingSoonScreen({ item }) {
 }
 
 export default function AppShell({ screens, children }) {
+  const navigate = useNavigate();
   const { company } = useCompany();
   const { profile, signOut } = useAuth();
   const [activeId, setActiveId] = useState("ebitda-command-centre");
@@ -96,14 +98,14 @@ export default function AppShell({ screens, children }) {
         {/* Main nav */}
         <nav style={{ flex: 1, padding: "0 8px" }}>
           {mainItems.map(item => (
-            <NavItem key={item.id} item={item} active={activeId === item.id} primary={primary} primaryLight={primaryLight} onClick={() => setActiveId(item.id)} />
+            <NavItem key={item.id} item={item} active={activeId === item.id} primary={primary} primaryLight={primaryLight} onClick={() => { setActiveId(item.id); navigate(item.path); }} />
           ))}
         </nav>
 
         {/* Bottom nav */}
         <div style={{ padding: "8px 8px 16px", borderTop: "0.5px solid var(--color-border-tertiary)" }}>
           {bottomItems.map(item => (
-            <NavItem key={item.id} item={item} active={activeId === item.id} primary={primary} primaryLight={primaryLight} onClick={() => setActiveId(item.id)} />
+            <NavItem key={item.id} item={item} active={activeId === item.id} primary={primary} primaryLight={primaryLight} onClick={() => { setActiveId(item.id); navigate(item.path); }} />
           ))}
         </div>
 

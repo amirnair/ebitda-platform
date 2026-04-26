@@ -23,7 +23,7 @@ import { useCompany } from "./CompanyContext";
 // order matches Section 8 of the master context document
 const NAV_ITEMS = [
   {
-    id: "ebitda-command-centre",
+    id: "ebitda-command-centre", path: "/dashboard",
     label: "EBITDA Command Centre",
     shortLabel: "Command Centre",
     icon: IconCommandCentre,
@@ -42,7 +42,7 @@ const NAV_ITEMS = [
     phaseNote: "Phase 3",
   },
   {
-    id: "production-cycle",
+    id: "production-cycle", path: "/production",
     label: "Production Cycle",
     shortLabel: "Production",
     icon: IconProduction,
@@ -51,7 +51,7 @@ const NAV_ITEMS = [
     built: false,
   },
   {
-    id: "sales-cycle",
+    id: "sales-cycle", path: "/sales",
     label: "Sales Cycle",
     shortLabel: "Sales",
     icon: IconSales,
@@ -60,7 +60,7 @@ const NAV_ITEMS = [
     built: false,
   },
   {
-    id: "daily-rolling-plan",
+    id: "daily-rolling-plan", path: "/daily-plan",
     label: "Daily Rolling Plan",
     shortLabel: "Daily Plan",
     icon: IconDailyPlan,
@@ -69,7 +69,7 @@ const NAV_ITEMS = [
     built: false,
   },
   {
-    id: "weekly-production-plan",
+    id: "weekly-production-plan", path: "/weekly-plan",
     label: "Weekly Production Plan",
     shortLabel: "Weekly Plan",
     icon: IconWeeklyPlan,
@@ -78,7 +78,7 @@ const NAV_ITEMS = [
     built: false,
   },
   {
-    id: "model-comparison",
+    id: "model-comparison", path: "/model-comparison",
     label: "Model Comparison",
     shortLabel: "Models",
     icon: IconModels,
@@ -87,7 +87,7 @@ const NAV_ITEMS = [
     built: false,
   },
   {
-    id: "ebitda-simulator",
+    id: "ebitda-simulator", path: "/simulator",
     label: "EBITDA Simulator",
     shortLabel: "Simulator",
     icon: IconSimulator,
@@ -96,7 +96,7 @@ const NAV_ITEMS = [
     built: false,
   },
   {
-    id: "strategy-dashboard",
+    id: "strategy-dashboard", path: "/strategy",
     label: "Strategy Dashboard",
     shortLabel: "Strategy",
     icon: IconStrategy,
@@ -105,7 +105,7 @@ const NAV_ITEMS = [
     built: false,
   },
   {
-    id: "settings",
+    id: "settings", path: "/settings",
     label: "Settings",
     shortLabel: "Settings",
     icon: IconSettings,
