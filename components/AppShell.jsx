@@ -8,7 +8,7 @@ import { useAuth } from "./AuthContext";
 
 const NAV_ITEMS = [
   { id: "ebitda-command-centre", path: "/dashboard", label: "EBITDA Command Centre", shortLabel: "Command Centre", icon: IconCommandCentre, audience: "Owner / Finance", phase: 1, built: true },
-  { id: "raw-material-cycle", label: "Raw Material Cycle", shortLabel: "Raw Material", icon: IconRawMaterial, audience: "Procurement", phase: 3, built: false, phaseNote: "Phase 3" },
+  { id: "raw-material-cycle", path: "/raw-material-cycle", label: "Raw Material Cycle", shortLabel: "Raw Material", icon: IconRawMaterial, audience: "Procurement", phase: 3, built: true },
   { id: "production-cycle", path: "/production", label: "Production Cycle", shortLabel: "Production", icon: IconProduction, audience: "Production Mgr", phase: 2, built: false },
   { id: "sales-cycle", path: "/sales", label: "Sales Cycle", shortLabel: "Sales", icon: IconSales, audience: "Sales Mgr", phase: 1, built: false },
   { id: "daily-rolling-plan", path: "/daily-plan", label: "Daily Rolling Plan", shortLabel: "Daily Plan", icon: IconDailyPlan, audience: "Production Sup.", phase: 2, built: false },
