@@ -2,7 +2,7 @@
  * AppShell.jsx — Fixed with null-safe company references
  */
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useCompany } from "./CompanyContext";
 import { useAuth } from "./AuthContext";
 
@@ -53,7 +53,8 @@ export default function AppShell({ screens, children }) {
   const navigate = useNavigate();
   const { company } = useCompany();
   const { profile, signOut } = useAuth();
-  const [activeId, setActiveId] = useState("ebitda-command-centre");
+  const location = useLocation();
+  const activeId = location.pathname.slice(1) || "ebitda-command-centre";
 
   // Null-safe fallbacks — prevents crash when company hasn't loaded yet
   const primary = company?.primary_colour ?? '#f59e0b';
@@ -98,14 +99,14 @@ export default function AppShell({ screens, children }) {
         {/* Main nav */}
         <nav style={{ flex: 1, padding: "0 8px" }}>
           {mainItems.map(item => (
-            <NavItem key={item.id} item={item} active={activeId === item.id} primary={primary} primaryLight={primaryLight} onClick={() => { setActiveId(item.id); navigate(item.path); }} />
+            <NavItem key={item.id} item={item} active={activeId === item.id} primary={primary} primaryLight={primaryLight} onClick={() => navigate(item.path)} />
           ))}
         </nav>
 
         {/* Bottom nav */}
         <div style={{ padding: "8px 8px 16px", borderTop: "0.5px solid var(--color-border-tertiary)" }}>
           {bottomItems.map(item => (
-            <NavItem key={item.id} item={item} active={activeId === item.id} primary={primary} primaryLight={primaryLight} onClick={() => { setActiveId(item.id); navigate(item.path); }} />
+            <NavItem key={item.id} item={item} active={activeId === item.id} primary={primary} primaryLight={primaryLight} onClick={() => navigate(item.path)} />
           ))}
         </div>
 
