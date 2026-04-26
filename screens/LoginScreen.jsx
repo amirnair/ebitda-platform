@@ -22,7 +22,7 @@ export default function LoginScreen() {
     }
 
     // Force a full page navigation to dashboard — bypasses React Router/AuthContext timing issues
-    window.location.href = '/dashboard'
+    window.location.href = window.location.origin + '/dashboard?t=' + Date.now()
   }
 
   return (
