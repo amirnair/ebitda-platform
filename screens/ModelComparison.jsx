@@ -90,6 +90,7 @@ function WeightBar({ weight, colour }) {
 
 export default function ModelComparison() {
   const { company } = useCompany();
+    if (!company) return null;
   const primary = company.primary_colour || "#2563eb";
   const [activeCategory, setActiveCategory] = useState("All");
   const [sortBy, setSortBy] = useState("mape");
