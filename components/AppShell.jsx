@@ -1,7 +1,7 @@
 /**
  * AppShell.jsx — Fixed with null-safe company references
  */
-
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useCompany } from "./CompanyContext";
 import { useAuth } from "./AuthContext";
