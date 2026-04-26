@@ -16,7 +16,7 @@ import WeeklyProductionPlan from './screens/WeeklyProductionPlan';
 import ModelComparison from './screens/ModelComparison';
 import EbitdaSimulator from './screens/EbitdaSimulator';
 import StrategyDashboard from './screens/StrategyDashboard';
-import Settings from './screens/Settings';
+import RawMaterialCycle from './screens/RawMaterialCycle';
 
 import { defaultScreen } from './config/rolePermissions';
 
@@ -94,6 +94,14 @@ export default function App() {
               </AuthenticatedLayout>
             }
           />
+          <Route
+          path="/raw-material-cycle"
+          element={
+            <AuthenticatedLayout screenKey="raw-material-cycle">
+              <RawMaterialCycle />
+            </AuthenticatedLayout>
+          }
+        />
           <Route
             path="/sales"
             element={
