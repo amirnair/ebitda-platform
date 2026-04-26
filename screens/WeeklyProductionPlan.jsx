@@ -89,11 +89,11 @@ function DayDot({ active }) {
 // ─── Main Screen ─────────────────────────────────────────────────────────────
 
 export default function WeeklyProductionPlan() {
-  const { company } = useCompany();  if (!company) return null;
-  const primary = company.primary_colour || "#2563eb";
-  const secondary = company.secondary_colour || "#7c3aed";
-  const p1Label = company.brand_p1 || "Product 1";
-  const p2Label = company.brand_p2 || "Product 2";
+    const { company } = useCompany();
+    const primary = company?.primary_colour || "#2563eb";
+    const secondary = company?.secondary_colour || "#7c3aed";
+    const p1Label = company?.brand_p1 || "Product 1";
+    const p2Label = company?.brand_p2 || "Product 2";
 
   const [selectedDay, setSelectedDay] = useState(null);
 
