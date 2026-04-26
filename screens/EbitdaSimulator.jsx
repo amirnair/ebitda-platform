@@ -104,9 +104,9 @@ function EbitdaBridge({ base, sim }) {
 
 export default function EbitdaSimulator() {
   const { company } = useCompany();
-    if (!company) return null;
-  const primary = company.primary_colour || "#2563eb";
-  const secondary = company.secondary_colour || "#7c3aed";
+    
+  const primary = company?.primary_colour || "#2563eb";
+  const secondary = company?.secondary_colour || "#7c3aed";
 
   const [volume, setVolume]           = useState(BASE.volume_mt);
   const [realisation, setRealisation] = useState(BASE.realisation_per_ton);

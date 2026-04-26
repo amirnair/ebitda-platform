@@ -57,8 +57,8 @@ function CompanyTab({ company }) {
     ['Platform Slug',       company.company?.slug ?? '—'],
     ['Industry',            company.company?.industry ?? 'steel'],
     ['Subscription Tier',   company.subscription_tier],
-    ['Primary Colour',      company.primary_colour],
-    ['Secondary Colour',    company.secondary_colour],
+    ['Primary Colour',      company?.primary_colour],
+    ['Secondary Colour',    company?.secondary_colour],
   ]
 
   return (

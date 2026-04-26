@@ -18,8 +18,8 @@
  *   useSWR(`/api/ebitda/monthly?company_id=${company.company_id}&month=${month}`)
  *
  * Colours:
- *   All chart colours pulled from company.primary_colour /
- *   company.secondary_colour — never hardcoded.
+ *   All chart colours pulled from company?.primary_colour /
+ *   company?.secondary_colour — never hardcoded.
  * ─────────────────────────────────────────────────────────────────────────────
  */
 import { useState, useMemo } from "react";
@@ -176,8 +176,8 @@ Generate a 2–3 sentence analyst insight for the business owner.`;
 
   return (
     <div style={{
-      background: company.secondary_colour_light,
-      borderLeft: `3px solid ${company.secondary_colour}`,
+      background: company?.secondary_colour_light,
+      borderLeft: `3px solid ${company?.secondary_colour}`,
       borderRadius: "0 var(--border-radius-md) var(--border-radius-md) 0",
       padding: "12px 16px",
       marginBottom: 14,
@@ -186,7 +186,7 @@ Generate a 2–3 sentence analyst insight for the business owner.`;
       {/* Icon */}
       <div style={{
         width: 18, height: 18, borderRadius: "50%",
-        background: company.secondary_colour,
+        background: company?.secondary_colour,
         display: "flex", alignItems: "center", justifyContent: "center",
         flexShrink: 0, marginTop: 1,
       }}>
@@ -200,7 +200,7 @@ Generate a 2–3 sentence analyst insight for the business owner.`;
         <p style={{
           fontSize: 11, fontWeight: 600, letterSpacing: "0.06em",
           textTransform: "uppercase",
-          color: company.secondary_colour,
+          color: company?.secondary_colour,
           margin: "0 0 4px",
         }}>
           AI Insight · {new Date().toLocaleDateString("en-IN", { month: "long", year: "numeric" })}
@@ -281,8 +281,8 @@ export default function EbitdaCommandCentre() {
   const [period, setPeriod] = useState("12M");
   const { trendData, forecastData } = useSyntheticEbitda(period);
 
-  const primary   = company.primary_colour;
-  const secondary = company.secondary_colour;
+  const primary   = company?.primary_colour;
+  const secondary = company?.secondary_colour;
 
   // KPI data (replace with API response)
   const kpis = {

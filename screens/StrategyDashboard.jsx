@@ -88,11 +88,11 @@ function TargetGauge({ label, current, target, unit, colour, invert }) {
 
 export default function StrategyDashboard() {
   const { company } = useCompany();
-    if (!company) return null;
-  const primary = company.primary_colour || "#2563eb";
-  const secondary = company.secondary_colour || "#7c3aed";
-  const p1Label = company.brand_p1 || "Product 1";
-  const p2Label = company.brand_p2 || "Product 2";
+    
+  const primary = company?.primary_colour || "#2563eb";
+  const secondary = company?.secondary_colour || "#7c3aed";
+  const p1Label = company?.brand_p1 || "Product 1";
+  const p2Label = company?.brand_p2 || "Product 2";
 
   // Current month stats (from last actual)
   const lastActual = MONTHS_HISTORY.filter(m => m.actual).slice(-1)[0];

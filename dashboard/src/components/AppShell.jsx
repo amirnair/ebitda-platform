@@ -232,8 +232,8 @@ export default function AppShell({ screens }) {
   const company = useCompany();
   const [activeId, setActiveId] = useState("ebitda-command-centre");
 
-  const primary = company.primary_colour;
-  const primaryLight = company.primary_colour_light;
+  const primary = company?.primary_colour;
+  const primaryLight = company?.primary_colour_light;
 
   const mainItems = NAV_ITEMS.filter(n => !n.isBottom);
   const bottomItems = NAV_ITEMS.filter(n => n.isBottom);
