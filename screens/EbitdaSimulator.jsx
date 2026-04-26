@@ -7,7 +7,7 @@ import { useCompany } from "../components/CompanyContext";
 import { useClaudeInsight } from "../hooks/useClaudeInsight";
 import { formatCurrency, formatVolume, formatMargin } from "../utils/formatCurrency";
 
-// ─── Base scenario (mirrors EBITDA engine current month) ─────────────────────
+// ─── Base scenario (mirrors EBITDA enghine current month) ─────────────────────
 const BASE = {
   volume_mt: 1850,
   realisation_per_ton: 52500,
@@ -104,6 +104,7 @@ function EbitdaBridge({ base, sim }) {
 
 export default function EbitdaSimulator() {
   const { company } = useCompany();
+    if (!company) return null;
   const primary = company.primary_colour || "#2563eb";
   const secondary = company.secondary_colour || "#7c3aed";
 
