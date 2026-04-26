@@ -1,13 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
 import {
   BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  WaterfallChart, Cell
+  Cell, Legend
 } from "recharts";
 import { useCompany } from "../components/CompanyContext";
 import { useClaudeInsight } from "../hooks/useClaudeInsight";
 import { formatCurrency, formatVolume, formatMargin } from "../utils/formatCurrency";
 
-// ─── Base scenario (mirrors EBITDA enghine current month) ─────────────────────
+// ─── Base scenario (mirrors EBITDA engine current month) ─────────────────────
 const BASE = {
   volume_mt: 1850,
   realisation_per_ton: 52500,
