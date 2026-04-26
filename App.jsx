@@ -16,6 +16,7 @@ import WeeklyProductionPlan from './screens/WeeklyProductionPlan';
 import ModelComparison from './screens/ModelComparison';
 import EbitdaSimulator from './screens/EbitdaSimulator';
 import StrategyDashboard from './screens/StrategyDashboard';
+import Settings from './screens/Settings';
 import RawMaterialCycle from './screens/RawMaterialCycle';
 
 import { defaultScreen } from './config/rolePermissions';
