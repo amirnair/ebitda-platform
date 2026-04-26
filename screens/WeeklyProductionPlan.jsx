@@ -89,7 +89,7 @@ function DayDot({ active }) {
 // ─── Main Screen ─────────────────────────────────────────────────────────────
 
 export default function WeeklyProductionPlan() {
-  const { company } = useCompany();
+  const { company } = useCompany();  if (!company) return null;
   const primary = company.primary_colour || "#2563eb";
   const secondary = company.secondary_colour || "#7c3aed";
   const p1Label = company.brand_p1 || "Product 1";
