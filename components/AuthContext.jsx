@@ -101,8 +101,8 @@ export function AuthProvider({ children }) {
         <AuthContext.Provider value={authValue}>
                 <CompanyContext.Provider value={companyValue}>
                   {children}
-                </CompanyContext.Provider>CompanyContext.Provider>
-        </AuthContext.Provider>AuthContext.Provider>
+                </CompanyContext.Provider>
+        </AuthContext.Provider>
       );
 }
 
