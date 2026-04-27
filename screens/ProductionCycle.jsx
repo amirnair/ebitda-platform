@@ -176,7 +176,7 @@ export default function ProductionCycle() {
     power_delta_pct: powerDelta,
   }), []);
 
-  const { insight, loading, refresh } = useClaudeInsight(
+  const { insight, loading: aiLoading, refresh } = useClaudeInsight(
     `You are a steel mill production analyst. Analyse this production data and give 2–3 sentences of actionable insight. 
     Data: ${JSON.stringify(promptData)}. 
     Focus on the most important lever: power cost vs benchmark, downtime trend, or output trend. 
@@ -196,7 +196,7 @@ export default function ProductionCycle() {
       <style>{css}</style>
       <div style={{ padding: "0 0 40px" }}>
 
-        <InsightStrip insight={insight} loading={loading} refresh={refresh} accent={accent} />
+        <InsightStrip insight={insight} loading={aiLoading} refresh={refresh} accent={accent} />
 
         {/* KPI Row */}
         <div style={{ display: "grid", gridTemplateColumns: "repeat(4, 1fr)", gap: 12, marginBottom: 24 }}>
