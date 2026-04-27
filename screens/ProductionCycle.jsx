@@ -7,6 +7,7 @@ import {
 import { useCompany } from "../components/CompanyContext";
 import { useClaudeInsight } from "../hooks/useClaudeInsight";
 import { formatCurrency, formatPerTon, formatVolume, formatMargin } from "../utils/formatCurrency";
+import { supabase } from "../lib/supabaseClient";
 
 // ─── Mock data ────────────────────────────────────────────────────────────────
 const MONTHS = ["Nov","Dec","Jan","Feb","Mar","Apr"];
@@ -132,8 +133,28 @@ export default function ProductionCycle() {
   const accent = company?.primary_colour || "#e67e22";
   const accent2 = company?.secondary_colour || "#2c3e50";
 
-  const current = mockMonthlyProduction[mockMonthlyProduction.length - 1];
-  const prev    = mockMonthlyProduction[mockMonthlyProduction.length - 2];
+  const [liveData, setLiveData] = useState([]);
+    const [loading, setLoading] = useState(true);
+    const [dbError, setDbError] = useState(null);
+    useEffect(() => {
+          if (!company?.id) return;
+          async function load() {
+                  setLoading(true); setDbError(null);
+                  const { data, error: err } = await supabase
+                    .from("production_data").select("*")
+                    .eq("company_id", company.id)
+                    .order("year", { ascending: true }).order("month", { ascending: true });
+                  if (err) { setDbError(err.message); setLoading(false); return; }
+                  setLiveData(data || []);
+                  setLoading(false);
+          }
+          load();
+    }, [company?.id]);
+    if (loading) return <div className="p-8 text-gray-400">Loading production data...</div>;
+    if (dbError) return <div className="p-8 text-red-400">Error: {dbError}</div>;
+    const monthlyData = liveData.length > 0 ? liveData : mockMonthlyProduction;
+    const current = monthlyData[monthlyData.length - 1];
+    const prev    = monthlyData[monthlyData.length - 2];
 
   const outputDelta   = +(((current.output_mt - prev.output_mt) / prev.output_mt) * 100).toFixed(1);
   const powerDelta    = +(((current.power_cost_per_ton - prev.power_cost_per_ton) / prev.power_cost_per_ton) * 100).toFixed(1);
@@ -217,7 +238,7 @@ export default function ProductionCycle() {
               Mill Output (MT) & Power Cost / Ton — 6 Months
             </div>
             <ResponsiveContainer width="100%" height={220}>
-              <AreaChart data={mockMonthlyProduction} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+              <AreaChart data={monthlyData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="outputFill" x1="0" y1="0" x2="0" y2="1">
                     <stop offset="5%" stopColor={accent} stopOpacity={0.18} />
@@ -297,7 +318,7 @@ export default function ProductionCycle() {
               Downtime % & Wastage % — 6M Trend
             </div>
             <ResponsiveContainer width="100%" height={200}>
-              <LineChart data={mockMonthlyProduction} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
+              <LineChart data={monthlyData} margin={{ top: 4, right: 8, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="var(--border)" />
                 <XAxis dataKey="month" tick={{ fontSize: 11, fill: "var(--muted)" }} />
                 <YAxis tick={{ fontSize: 11, fill: "var(--muted)", fontFamily: "'DM Mono', monospace" }} />
